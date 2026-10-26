@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8oqhr13oj7oo"]
+
+[ext_resource type="Script" uid="uid://c5xokaoubobjn" path="res://data/scripts/viewmodel.gd" id="1_s07fk"]
+[ext_resource type="PackedScene" uid="uid://baa2gt7wxpwc2" path="res://data/models/arm/arm.glb" id="2_3hfgj"]
+
+[node name="PlayerViewmodel" type="SubViewportContainer" node_paths=PackedStringArray("viewmodel_camera")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+script = ExtResource("1_s07fk")
+viewmodel_camera = NodePath("SubViewport/ViewModelCamera")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="arm" parent="SubViewport" instance=ExtResource("2_3hfgj")]
+
+[node name="Arm" parent="SubViewport/arm/Character/Skeleton3D" index="0"]
+layers = 4
+cast_shadow = 0
+
+[node name="AnimationPlayer" parent="SubViewport/arm" index="1"]
+autoplay = "idle"
+
+[node name="ViewModelCamera" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+cull_mask = 4
+fov = 55.0
+
+[editable path="SubViewport/arm"]

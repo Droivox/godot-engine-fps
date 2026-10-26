@@ -1,0 +1,86 @@
+[gd_scene load_steps=25 format=3 uid="uid://blla3oh8kkq7t"]
+
+[ext_resource type="Script" uid="uid://cko5ngw083hfv" path="res://data/scripts/player/player.gd" id="1_h128l"]
+[ext_resource type="Script" uid="uid://unqibs45kbhp" path="res://data/scripts/player/player_head.gd" id="2_ffs6u"]
+[ext_resource type="Script" uid="uid://co5xv7uow4h3y" path="res://data/scripts/player/player_camera.gd" id="3_225y7"]
+[ext_resource type="Script" uid="uid://brwxu6axf3mld" path="res://data/scripts/player/player_stair_check.gd" id="4_pxpfc"]
+[ext_resource type="AudioStream" uid="uid://dqfyivntm1okx" path="res://data/sounds/player/fall.ogg" id="5_2aoe0"]
+[ext_resource type="Script" uid="uid://bbov0t12j64ru" path="res://data/scripts/player/player_sound.gd" id="5_hu2ih"]
+[ext_resource type="AudioStream" uid="uid://by2xumg25m5h4" path="res://data/sounds/player/ladder/default_ladder_footsteps_1.ogg" id="6_6kiou"]
+[ext_resource type="AudioStream" uid="uid://uosthml3qhg2" path="res://data/sounds/footsteep/metal/footsteep_metal_1.ogg" id="6_anxhf"]
+[ext_resource type="AudioStream" uid="uid://cogv6uk32dqqp" path="res://data/sounds/player/jump.ogg" id="6_qnej1"]
+[ext_resource type="AudioStream" uid="uid://cddhgu11mreko" path="res://data/sounds/footsteep/metal/footsteep_metal_2.ogg" id="7_jwwhu"]
+[ext_resource type="AudioStream" uid="uid://bea1sf1kdes6o" path="res://data/sounds/player/ladder/default_ladder_footsteps_2.ogg" id="7_pcvvq"]
+[ext_resource type="AudioStream" uid="uid://bixokma34o0v5" path="res://data/sounds/player/ladder/default_ladder_footsteps_3.ogg" id="8_ewmhq"]
+[ext_resource type="AudioStream" uid="uid://bidh8u0u8vy4l" path="res://data/sounds/footsteep/metal/footsteep_metal_3.ogg" id="8_xsuoi"]
+[ext_resource type="AudioStream" uid="uid://djrr45oe2xui2" path="res://data/sounds/player/ladder/default_ladder_footsteps_4.ogg" id="9_t47yx"]
+[ext_resource type="AudioStream" uid="uid://bnt0stlyg15yh" path="res://data/sounds/footsteep/metal/footsteep_metal_4.ogg" id="9_xv471"]
+[ext_resource type="AudioStream" uid="uid://b2hfpmlp10ui7" path="res://data/sounds/footsteep/floor/footsteep_floor_1.ogg" id="10_73v7l"]
+[ext_resource type="AudioStream" uid="uid://dl1clp7ti1tya" path="res://data/sounds/footsteep/floor/footsteep_floor_2.ogg" id="11_nocft"]
+[ext_resource type="AudioStream" uid="uid://duqdw2cxkees1" path="res://data/sounds/footsteep/floor/footsteep_floor_3.ogg" id="12_lvqu7"]
+[ext_resource type="AudioStream" uid="uid://bf4nqpm5ul5kx" path="res://data/sounds/footsteep/floor/footsteep_floor_4.ogg" id="13_0yr7c"]
+[ext_resource type="AudioStream" uid="uid://d3wfgajutw1tl" path="res://data/sounds/footsteep/floor/footsteep_floor_5.ogg" id="14_cmu2r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2648x"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_stuso"]
+radius = 0.29
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_y7rxt"]
+radius = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qs05m"]
+radius = 0.35
+
+[node name="PlayerController" type="CharacterBody3D" node_paths=PackedStringArray("head_check", "feet")]
+script = ExtResource("1_h128l")
+head_check = NodePath("HeadCheck")
+feet = NodePath("Feet")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_2648x")
+
+[node name="Head" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("2_ffs6u")
+camera = NodePath("PlayerCamera")
+
+[node name="PlayerCamera" type="Camera3D" parent="Head" node_paths=PackedStringArray("player", "player_head")]
+cull_mask = 1048571
+script = ExtResource("3_225y7")
+player = NodePath("../..")
+player_head = NodePath("..")
+
+[node name="HeadCheck" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("SphereShape3D_stuso")
+target_position = Vector3(0, 0.75, 0)
+debug_shape_custom_color = Color(0.567405, 0.51742, 0.776096, 1)
+
+[node name="StairCheck" type="ShapeCast3D" parent="." node_paths=PackedStringArray("player", "collision")]
+shape = SubResource("SphereShape3D_y7rxt")
+script = ExtResource("4_pxpfc")
+player = NodePath("..")
+collision = NodePath("../CollisionShape3D")
+max_stair_distance = 0.3
+
+[node name="Feet" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("SphereShape3D_qs05m")
+target_position = Vector3(0, 0, 0)
+
+[node name="PlayerSound" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_hu2ih")
+player = NodePath("..")
+ladder_footsteep_metal = Array[AudioStream]([ExtResource("6_6kiou"), ExtResource("7_pcvvq"), ExtResource("8_ewmhq"), ExtResource("9_t47yx")])
+footsteep_metal = Array[AudioStream]([ExtResource("6_anxhf"), ExtResource("7_jwwhu"), ExtResource("8_xsuoi"), ExtResource("9_xv471")])
+footsteep_floor = Array[AudioStream]([ExtResource("10_73v7l"), ExtResource("11_nocft"), ExtResource("12_lvqu7"), ExtResource("13_0yr7c"), ExtResource("14_cmu2r")])
+
+[node name="Landing" type="AudioStreamPlayer3D" parent="PlayerSound"]
+stream = ExtResource("5_2aoe0")
+
+[node name="Jump" type="AudioStreamPlayer3D" parent="PlayerSound"]
+stream = ExtResource("6_qnej1")

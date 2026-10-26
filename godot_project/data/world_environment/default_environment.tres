@@ -1,0 +1,16 @@
+[gd_resource type="Environment" format=3 uid="uid://ci6x5at1m5s5d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eqrjm"]
+
+[sub_resource type="Sky" id="Sky_g470t"]
+sky_material = SubResource("ProceduralSkyMaterial_eqrjm")
+
+[resource]
+background_mode = 1
+background_color = Color(0.5008282, 0.7305203, 0.85901946, 1)
+sky = SubResource("Sky_g470t")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+ssao_enabled = true
+glow_enabled = true

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dohkkj4p6ah6p"]
+
+[ext_resource type="Script" uid="uid://b2w8vx4iln83o" path="res://data/scripts/debug.gd" id="1_dqclc"]
+[ext_resource type="FontFile" uid="uid://bxk22qnbf6cso" path="res://data/fonts/m6x11.ttf" id="2_ptsrb"]
+
+[node name="Debug" type="CanvasLayer" unique_id=315650842 node_paths=PackedStringArray("info")]
+layer = 128
+script = ExtResource("1_dqclc")
+info = NodePath("Info")
+
+[node name="Info" type="Label" parent="." unique_id=345117923]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_ptsrb")
+theme_override_font_sizes/font_size = 24
+text = "test"

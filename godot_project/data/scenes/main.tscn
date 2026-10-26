@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://d0sp1mvysgf7r"]
+
+[ext_resource type="Environment" uid="uid://ci6x5at1m5s5d" path="res://data/world_environment/default_environment.tres" id="1_eqrjm"]
+[ext_resource type="PackedScene" uid="uid://blla3oh8kkq7t" path="res://data/scenes/player.tscn" id="1_sfase"]
+[ext_resource type="PackedScene" uid="uid://kn3yc3tl1j4p" path="res://data/scenes/bullet_hole.tscn" id="5_pbhab"]
+[ext_resource type="Material" uid="uid://bxfbeol6c41qn" path="res://data/materials/generic/generic_droivox_debug_grid.material" id="7_fatw5"]
+[ext_resource type="Material" uid="uid://col0e4yobr87g" path="res://data/materials/screen_effects/screem_outline.material" id="8_eqrjm"]
+
+[sub_resource type="Shader" id="Shader_yeeyf"]
+code = "shader_type canvas_item;
+
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_nearest;
+
+uniform float distortion : hint_range(-10.0, 10.0, 0.1);
+uniform float blur : hint_range(0.0, 5.0, 0.1);
+uniform float ditther_opacity : hint_range(0.0, 1.0, 0.01);
+
+uniform bool enable_dither = true;
+uniform float dither_size : hint_range(1.0, 16.0, 0.1) = 1.0;
+
+uniform bool enable_color_reduction = true;
+uniform float color_levels : hint_range(2.0, 256.0, 1.0) = 16.0;
+
+uniform float pixel_size : hint_range(1.0, 32.0, 1.0) = 4.0;
+
+float bayer(vec2 p) {
+	int x = int(mod(p.x, 4.0));
+	int y = int(mod(p.y, 4.0));
+	int index = x + y * 4;
+
+	float[16] matrix = float[](
+		0.0, 8.0, 2.0, 10.0,
+		12.0, 4.0, 14.0, 6.0,
+		3.0, 11.0, 1.0, 9.0,
+		15.0, 7.0, 13.0, 5.0
+	);
+
+	return matrix[index] / 16.0;
+}
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+
+	// PIXELIZAÇÃO
+	vec2 resolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 pixel_grid = resolution / pixel_size;
+	uv = floor(uv * pixel_grid) / pixel_grid;
+
+	float d = distortion * 0.001;
+
+	float r = textureLod(SCREEN_TEXTURE, uv + vec2(-d, d), blur).r;
+	float g = textureLod(SCREEN_TEXTURE, uv, blur).g;
+	float b = textureLod(SCREEN_TEXTURE, uv + vec2(d, -d), blur).b;
+
+	vec3 color = vec3(r, g, b);
+
+	if (enable_dither) {
+		float noise = bayer(floor(FRAGCOORD.xy / dither_size));
+		color += ((noise - 0.5) / color_levels) * ditther_opacity;
+	}
+
+	if (enable_color_reduction) {
+		color = floor(color * color_levels) / color_levels;
+	}
+
+	COLOR = vec4(color, 1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbhab"]
+shader = SubResource("Shader_yeeyf")
+shader_parameter/distortion = 1.5000001713637996
+shader_parameter/blur = 0.0
+shader_parameter/ditther_opacity = 0.7999999821184
+shader_parameter/enable_dither = true
+shader_parameter/dither_size = 1.5000000074506
+shader_parameter/enable_color_reduction = true
+shader_parameter/color_levels = 16.0
+shader_parameter/pixel_size = 3.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_um7au"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="Main" type="Node" unique_id=362638262]
+
+[node name="Post" type="Node" parent="." unique_id=1282531878]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Post" unique_id=1349746853]
+environment = ExtResource("1_eqrjm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Post" unique_id=749595241]
+transform = Transform3D(-0.86602354, -0.43301606, 0.25000072, 0, 0.49999818, 0.86602646, -0.5000033, 0.7499993, -0.4330102, 0, 0, 0)
+layers = 5
+shadow_enabled = true
+
+[node name="ScreenEffects" type="Node3D" parent="Post" unique_id=1826849766]
+
+[node name="ScreenEffects2D" type="ColorRect" parent="Post/ScreenEffects" unique_id=674052410]
+visible = false
+material = SubResource("ShaderMaterial_pbhab")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Outline" type="MeshInstance3D" parent="Post/ScreenEffects" unique_id=437748213]
+visible = false
+material_override = ExtResource("8_eqrjm")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_um7au")
+skeleton = NodePath("../../..")
+
+[node name="Player" parent="." unique_id=896951694 instance=ExtResource("1_sfase")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=593719154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9924774, -2.8458397)
+material_override = ExtResource("7_fatw5")
+use_collision = true
+size = Vector3(1, 4.984955, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=43782027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+material_override = ExtResource("7_fatw5")
+use_collision = true
+size = Vector3(30, 1, 30)
+
+[node name="BulletHole" parent="." unique_id=373338806 instance=ExtResource("5_pbhab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.1597005)
