@@ -107,6 +107,10 @@ func fire_effects() -> void:
 		0.01
 	);
 	
+	muzzle_flash.rotation_degrees.z = randf_range(
+		0, 360
+	);
+	
 	muzzle_flash.visible = true;
 	muzzle_flash_light.visible = true;
 	
