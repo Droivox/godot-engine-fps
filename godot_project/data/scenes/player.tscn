@@ -222,14 +222,18 @@ input_0/name = "IDLE"
 input_0/auto_advance = false
 input_0/break_loop_at_end = false
 input_0/reset = true
-input_1/name = "IN"
+input_1/name = "INSPECT"
 input_1/auto_advance = false
 input_1/break_loop_at_end = false
 input_1/reset = true
-input_2/name = "OUT"
+input_2/name = "IN"
 input_2/auto_advance = false
 input_2/break_loop_at_end = false
 input_2/reset = true
+input_3/name = "OUT"
+input_3/auto_advance = false
+input_3/break_loop_at_end = false
+input_3/reset = true
 
 [sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_iy2d7"]
 input_0/name = "normal"
@@ -247,22 +251,25 @@ animation = &"glock_17_reload"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iy2d7"]
 animation = &"glock_17_in"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c01vk"]
+animation = &"glock_17_inspect"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_luwjy"]
 animation = &"glock_17_out"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_jsso6"]
-graph_offset = Vector2(-775.787, 164.92996)
-nodes/output/position = Vector2(660, 100)
+graph_offset = Vector2(-218, 92)
+nodes/output/position = Vector2(780, 100)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_08vgp")
 nodes/Animation/position = Vector2(-840, 140)
-nodes/OneShot/node = SubResource("AnimationNodeOneShot_toouh")
-nodes/OneShot/position = Vector2(-440, 160)
+nodes/Fire/node = SubResource("AnimationNodeOneShot_toouh")
+nodes/Fire/position = Vector2(-440, 160)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_jsso6")
 "nodes/Animation 2/position" = Vector2(-1200, 400)
 nodes/Reload/node = SubResource("AnimationNodeOneShot_wlg4u")
-nodes/Reload/position = Vector2(400, 120)
+nodes/Reload/position = Vector2(520, 120)
 nodes/reload_animation/node = SubResource("AnimationNodeAnimation_toouh")
-nodes/reload_animation/position = Vector2(180, 360)
+nodes/reload_animation/position = Vector2(300, 360)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_wlg4u")
 "nodes/Animation 3/position" = Vector2(-1140, 580)
 nodes/fire_transition/node = SubResource("AnimationNodeTransition_iy2d7")
@@ -270,12 +277,14 @@ nodes/fire_transition/position = Vector2(-820, 400)
 nodes/FIRERATE/node = SubResource("AnimationNodeTimeScale_wlg4u")
 nodes/FIRERATE/position = Vector2(-620, 380)
 nodes/Transition/node = SubResource("AnimationNodeTransition_luwjy")
-nodes/Transition/position = Vector2(-55.041374, 173.23413)
-nodes/weapon_in/node = SubResource("AnimationNodeAnimation_iy2d7")
-nodes/weapon_in/position = Vector2(-380, 520)
-nodes/weapon_out/node = SubResource("AnimationNodeAnimation_luwjy")
-nodes/weapon_out/position = Vector2(-340, 700)
-node_connections = [&"output", 0, &"Reload", &"OneShot", 0, &"Animation", &"OneShot", 1, &"FIRERATE", &"Reload", 0, &"Transition", &"Reload", 1, &"reload_animation", &"fire_transition", 0, &"Animation 2", &"fire_transition", 1, &"Animation 3", &"FIRERATE", 0, &"fire_transition", &"Transition", 0, &"OneShot", &"Transition", 1, &"weapon_in", &"Transition", 2, &"weapon_out"]
+nodes/Transition/position = Vector2(160, 140)
+nodes/weapon_in_anim/node = SubResource("AnimationNodeAnimation_iy2d7")
+nodes/weapon_in_anim/position = Vector2(-380, 520)
+nodes/weapon_out_anim/node = SubResource("AnimationNodeAnimation_luwjy")
+nodes/weapon_out_anim/position = Vector2(-340, 700)
+nodes/weapon_inspect_anim/node = SubResource("AnimationNodeAnimation_c01vk")
+nodes/weapon_inspect_anim/position = Vector2(-220, 280)
+node_connections = [&"output", 0, &"Reload", &"Fire", 0, &"Animation", &"Fire", 1, &"FIRERATE", &"Reload", 0, &"Transition", &"Reload", 1, &"reload_animation", &"fire_transition", 0, &"Animation 2", &"fire_transition", 1, &"Animation 3", &"FIRERATE", 0, &"fire_transition", &"Transition", 0, &"Fire", &"Transition", 1, &"weapon_inspect_anim", &"Transition", 2, &"weapon_in_anim", &"Transition", 3, &"weapon_out_anim"]
 
 [node name="PlayerController" type="CharacterBody3D" unique_id=874457777 node_paths=PackedStringArray("head_check", "player_collision", "feet")]
 script = ExtResource("1_h128l")
@@ -358,24 +367,24 @@ bullet_hole_scene = ExtResource("13_iy2d7")
 [node name="Glock17Mesh" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17" unique_id=918535609 instance=ExtResource("11_jsso6")]
 transform = Transform3D(0.99999994, -1.6007107e-10, 0, -1.0477379e-09, 1, 1.8626451e-09, 1.8626451e-09, -1.8626451e-09, 0.9999999, 0, 0, 0)
 
-[node name="Skeleton3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature" parent_id_path=PackedInt32Array(918535609, 1426702985) index="0" unique_id=672285411]
+[node name="Skeleton3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature" parent_id_path=PackedInt32Array(918535609, 154160744) index="0" unique_id=310507070]
 bones/1/position = Vector3(-1.4367348e-18, -0.049148142, 0.016470477)
 bones/1/rotation = Quaternion(-0.13052619, -2.56109e-17, -2.5610898e-17, 0.9914449)
 bones/3/rotation = Quaternion(0.9795276, 2.3998e-08, -1.1676879e-07, -0.20130984)
 
-[node name="MuzzleFlash" type="Sprite3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 648716304) index="0" unique_id=1010944902]
+[node name="MuzzleFlash" type="Sprite3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="0" unique_id=1010944902]
 transform = Transform3D(0.99999994, -7.55972e-09, -9.313226e-10, 7.741619e-09, 0.99999994, 1.4901161e-08, 7.450581e-09, 0, 1, 0, 0, 0)
 flip_v = true
 pixel_size = 0.003
 texture = ExtResource("15_iy2d7")
 
-[node name="MuzzleFlashLight" type="OmniLight3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 648716304) index="1" unique_id=226131758]
+[node name="MuzzleFlashLight" type="OmniLight3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="1" unique_id=226131758]
 visible = false
 light_color = Color(0.8287747, 0.4894836, 0.20213118, 1)
 light_energy = 5.0
 omni_range = 0.3
 
-[node name="Glock17Mesh" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D" index="1" unique_id=386628138]
+[node name="Glock17Mesh" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D" index="1" unique_id=491804453]
 cast_shadow = 0
 
 [node name="Arms" parent="ViewModel/ArmsAndWeapon" unique_id=1358586963 instance=ExtResource("10_3haav")]
@@ -462,14 +471,14 @@ remote_path = NodePath("../../../../../Weapons")
 root_node = NodePath("../ArmsAndWeapon/Arms")
 tree_root = SubResource("AnimationNodeBlendTree_jsso6")
 anim_player = NodePath("../ArmsAndWeapon/Arms/AnimationPlayer")
-parameters/OneShot/active = false
-parameters/OneShot/internal_active = false
-parameters/OneShot/request = 0
+parameters/Fire/active = false
+parameters/Fire/internal_active = false
+parameters/Fire/request = 0
 parameters/Reload/active = false
 parameters/Reload/internal_active = false
 parameters/Reload/request = 0
 parameters/fire_transition/current_state = "normal"
-parameters/fire_transition/transition_request = "normal"
+parameters/fire_transition/transition_request = ""
 parameters/fire_transition/current_index = 0
 parameters/FIRERATE/scale = 1.0
 parameters/Transition/current_state = "IDLE"
@@ -480,9 +489,9 @@ parameters/Transition/current_index = 0
 root_node = NodePath("../ArmsAndWeapon/Weapons/Glock17/Glock17Mesh")
 tree_root = SubResource("AnimationNodeBlendTree_jsso6")
 anim_player = NodePath("../ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/AnimationPlayer")
-parameters/OneShot/active = false
-parameters/OneShot/internal_active = false
-parameters/OneShot/request = 0
+parameters/Fire/active = false
+parameters/Fire/internal_active = false
+parameters/Fire/request = 0
 parameters/Reload/active = false
 parameters/Reload/internal_active = false
 parameters/Reload/request = 0

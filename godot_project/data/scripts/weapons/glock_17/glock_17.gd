@@ -17,14 +17,17 @@ const STATES = {
 	IDLE = "IDLE",
 	FIRE = "FIRE",
 	FIRE_EMPTY = "FIRE_EMPTY",
+	INSPECT = "INSPECT",
 	RELOAD = "RELOAD",
 }
 
-var current_state: String = STATES.IDLE
+var current_state: String = STATES.IDLE;
 
 func _ready() -> void:
 	muzzle_flash.visible = false;
 	muzzle_flash_light.visible = false;
+	
+	change_state("IDLE");
 
 func _process(_delta: float) -> void:
 	Debug.draw_string(
@@ -57,7 +60,7 @@ func _process(_delta: float) -> void:
 				fire_effects();
 			
 			arms_and_weapon.playback_set(
-				"parameters/OneShot/request",
+				"parameters/Fire/request",
 				AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 			)
 	
@@ -66,7 +69,7 @@ func _process(_delta: float) -> void:
 			return
 		
 		arms_and_weapon.playback_set(
-			"parameters/OneShot/request",
+			"parameters/Fire/request",
 			AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT
 		)
 		
@@ -74,6 +77,20 @@ func _process(_delta: float) -> void:
 				"parameters/Reload/request",
 				AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 			)
+	
+	if Input.is_action_pressed("KEY_F"):
+		if not current_state in [STATES.IDLE]:
+			return
+		
+		arms_and_weapon.playback_set(
+			"parameters/Fire/request",
+			AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT
+		)
+		
+		arms_and_weapon.playback_set(
+			"parameters/Transition/transition_request",
+			"INSPECT"
+		)
 
 func reload() -> void:
 	current_ammo = max_ammo;
@@ -104,6 +121,13 @@ func change_state(state: String) -> void:
 		return
 	
 	current_state = STATES[state];
+	
+	match current_state:
+		STATES.IDLE:
+			arms_and_weapon.playback_set(
+				"parameters/Transition/transition_request",
+				"IDLE"
+			)
 
 func play_audio(audio_path : String, volume : float = 1.0) -> void:
 	AudioPlayer.play(
