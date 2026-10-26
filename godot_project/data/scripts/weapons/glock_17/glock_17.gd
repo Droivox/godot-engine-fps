@@ -53,7 +53,7 @@ func _process(_delta: float) -> void:
 					"normal"
 				)
 				
-				Global.effects.draw_bullet_hole(bullet_hole_scene, 0.2);
+				Global.effects.draw_bullet_hole(bullet_hole_scene, 0.1);
 				
 				current_ammo -= 1;
 				

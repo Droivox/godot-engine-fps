@@ -42,7 +42,7 @@ func draw_bullet_tracer(p1: Vector3, p2: Vector3, color: Color = Color.RED, hold
 
 func draw_bullet_hole(
 	bullet_hole_scene: PackedScene,
-	scale: float = 0.2,
+	scale: float = 0.1,
 	lifetime: float = 30.0,
 ) -> Decal:
 	if not is_instance_valid(Global.player_camera):
