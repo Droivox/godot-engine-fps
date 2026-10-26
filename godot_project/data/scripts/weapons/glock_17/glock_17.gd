@@ -11,23 +11,16 @@ extends Node3D
 
 @export var bullet_hole_scene : PackedScene;
 
-var is_firing : bool = false;
-
-enum STATES {
-	IDLE,
-	FIRE,
-	FIRE_EMPTY,
-	RELOAD,
+const STATES = {
+	IN = "IN",
+	OUT = "OUT",
+	IDLE = "IDLE",
+	FIRE = "FIRE",
+	FIRE_EMPTY = "FIRE_EMPTY",
+	RELOAD = "RELOAD",
 }
 
-var current_state : STATES = STATES.IDLE
-
-var state_guide : Dictionary = {
-	STATES.IDLE: "IDLE",
-	STATES.FIRE: "FIRE",
-	STATES.FIRE_EMPTY: "FIRE_EMPTY",
-	STATES.RELOAD: "RELOADING",
-}
+var current_state: String = STATES.IDLE
 
 func _ready() -> void:
 	muzzle_flash.visible = false;
@@ -35,7 +28,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	Debug.draw_string(
-		"GLOCK_17_STATE", state_guide[current_state]
+		"GLOCK_17_STATE", current_state
 	)
 	
 	Debug.draw_string(
@@ -69,8 +62,6 @@ func _process(_delta: float) -> void:
 			)
 	
 	if Input.is_action_pressed("KEY_R"):
-		if is_firing: return;
-		
 		if not current_state in [STATES.IDLE, STATES.FIRE, STATES.FIRE_EMPTY]:
 			return
 		
@@ -108,11 +99,11 @@ func fire_effects() -> void:
 	muzzle_flash.visible = false;
 	muzzle_flash_light.visible = false;
 
-func change_state(state : STATES) -> void:
-	current_state = state;
-
-func change_is_firing(value : bool) -> void:
-	is_firing = value;
+func change_state(state: String) -> void:
+	if not STATES.keys().has(state):
+		return
+	
+	current_state = STATES[state];
 
 func play_audio(audio_path : String, volume : float = 1.0) -> void:
 	AudioPlayer.play(
