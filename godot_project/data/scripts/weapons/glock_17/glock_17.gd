@@ -3,7 +3,7 @@ extends Node3D
 @export var arms_and_weapon : ArmsAndWeapon;
 @export var muzzle_point : Node3D;
 
-@export var muzzle_flash : Sprite3D;
+@export var muzzle_flash : MeshInstance3D;
 @export var muzzle_flash_light : OmniLight3D;
 
 @export var max_ammo : int = 12;

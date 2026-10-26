@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://brcpe88fn55bp" path="res://data/scripts/weapons/glock_17/glock_17.gd" id="12_toouh"]
 [ext_resource type="PackedScene" uid="uid://kn3yc3tl1j4p" path="res://data/scenes/bullet_hole.tscn" id="13_iy2d7"]
 [ext_resource type="Texture2D" uid="uid://ctpj008gqmtty" path="res://data/textures/fire_shot/fire_shot.png" id="15_iy2d7"]
+[ext_resource type="Shader" uid="uid://c7t2dr8dmaudx" path="res://data/shaders/toon.gdshader" id="16_luwjy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2648x"]
 radius = 0.3
@@ -30,6 +31,23 @@ radius = 0.2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qs05m"]
 radius = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c01vk"]
+render_priority = 0
+shader = ExtResource("16_luwjy")
+shader_parameter/albedo_texture = ExtResource("15_iy2d7")
+shader_parameter/albedo_color = Color(1, 1, 1, 1)
+shader_parameter/roughness = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.0
+shader_parameter/use_emission = true
+shader_parameter/emission_texture = ExtResource("15_iy2d7")
+shader_parameter/emission_strength = 5.000000074506
+shader_parameter/shadow_threshold = 0.0
+shader_parameter/light_smoothness = 0.00999999977648
+
+[sub_resource type="QuadMesh" id="QuadMesh_x6f56"]
+size = Vector2(0.3, 0.3)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0t6tw"]
 resource_name = "Arms_ArmsMesh"
@@ -372,17 +390,17 @@ bones/1/position = Vector3(-1.4367348e-18, -0.049148142, 0.016470477)
 bones/1/rotation = Quaternion(-0.13052619, -2.56109e-17, -2.5610898e-17, 0.9914449)
 bones/3/rotation = Quaternion(0.9795276, 2.3998e-08, -1.1676879e-07, -0.20130984)
 
-[node name="MuzzleFlash" type="Sprite3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="0" unique_id=1010944902]
-transform = Transform3D(0.99999994, -7.55972e-09, -9.313226e-10, 7.741619e-09, 0.99999994, 1.4901161e-08, 7.450581e-09, 0, 1, 0, 0, 0)
-flip_v = true
-pixel_size = 0.003
-texture = ExtResource("15_iy2d7")
-
-[node name="MuzzleFlashLight" type="OmniLight3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="1" unique_id=226131758]
+[node name="MuzzleFlashLight" type="OmniLight3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="0" unique_id=226131758]
 visible = false
 light_color = Color(0.8287747, 0.4894836, 0.20213118, 1)
 light_energy = 5.0
 omni_range = 0.3
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D/Root/MuzzelPoint" parent_id_path=PackedInt32Array(918535609, 1247266000) index="1" unique_id=1943299223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4495072e-12, 0.0028261081, 0)
+material_override = SubResource("ShaderMaterial_c01vk")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_x6f56")
 
 [node name="Glock17Mesh" parent="ViewModel/ArmsAndWeapon/Weapons/Glock17/Glock17Mesh/Glock17Armature/Skeleton3D" index="1" unique_id=491804453]
 cast_shadow = 0
