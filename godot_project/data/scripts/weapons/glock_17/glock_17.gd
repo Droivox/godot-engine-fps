@@ -6,10 +6,12 @@ extends Node3D
 @export var muzzle_flash : MeshInstance3D;
 @export var muzzle_flash_light : OmniLight3D;
 
-@export var max_ammo : int = 12;
+@export var max_ammo : int = 100;
 @export var current_ammo : int = max_ammo;
 
 @export var bullet_hole_scene : PackedScene;
+
+@export var fire_rate_scale : float = 1.0;
 
 const STATES = {
 	IN = "IN",
@@ -30,6 +32,11 @@ func _ready() -> void:
 	change_state("IDLE");
 
 func _process(_delta: float) -> void:
+	arms_and_weapon.playback_set(
+		"parameters/FIRERATE/scale",
+		fire_rate_scale
+	)
+	
 	Debug.draw_string(
 		"GLOCK_17_STATE", current_state
 	)

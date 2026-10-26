@@ -276,7 +276,7 @@ animation = &"glock_17_inspect"
 animation = &"glock_17_out"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_jsso6"]
-graph_offset = Vector2(-218, 92)
+graph_offset = Vector2(-804.97595, 112.284744)
 nodes/output/position = Vector2(780, 100)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_08vgp")
 nodes/Animation/position = Vector2(-840, 140)
