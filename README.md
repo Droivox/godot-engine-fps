@@ -9,5 +9,5 @@
 </h1>
 
 <p align="center">
-  Made with love for the Godot community — a friendly and modular FPS template to help you bring your ideas to life.
+  Work in progress — Godot 4.x is still under development. Downloading or using this project is not recommended yet.
 </p>
